@@ -1,0 +1,32 @@
+{
+  "name": "mykoa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.0.2",
+    "events": "^3.1.0",
+    "http": "0.0.1-security",
+    "images": "^3.0.2",
+    "koa": "^2.11.0",
+    "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.2.1",
+    "koa2-cors": "^2.0.6",
+    "kos": "^2.5.1",
+    "path": "^0.12.7",
+    "process": "^0.11.10",
+    "querystring": "^0.2.0",
+    "simple-koa-router": "0.0.3",
+    "stream": "0.0.2",
+    "url": "^0.11.0"
+  }
+}
