@@ -7,7 +7,8 @@ const router = new Router();
 const app = new Koa();
 const static = new Static();
 const view = new View()
-const querystring = require('querystring');
+const {insertData,findUserData} = require('./util/sql');
+app.use(router.routes());
 
 function parseData(ctx) {
     return new Promise((resolve, reject) => {
@@ -26,6 +27,12 @@ function parseData(ctx) {
 }
 
 function parseUrl(url) {
+    if(url === null){
+        return ''
+    }
+    if(url.indexOf('&') == -1){
+        return url
+    }
     let obj = {}
     let arr = url.split('&')
     arr.forEach((e, i) => {
@@ -35,7 +42,7 @@ function parseUrl(url) {
     return obj
 }
 
-app.use((ctx,next)=>{
+app.use(async (ctx,next)=>{
     ctx.res.setHeader('Access-Control-Allow-Origin', '*');
     //用于判断request来自ajax还是传统请求
     ctx.res.setHeader("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE,content-type");
@@ -52,8 +59,19 @@ app.use((ctx,next)=>{
 })
 
 
+router.get('/find', async (ctx) => {
+    await insertData('admin5','admin5','admin5','admin5')
+    ctx.body = await findUserData('admin5')
+})
+
 router.get('/home', (ctx, next) => {
     ctx.body = parseUrl(ctx.query);
+    next();
+})
+
+router.get('/user', (ctx, next) => {
+    ctx.setHeaders('token', 123)
+    ctx.body = "user";
     next();
 })
 
@@ -68,6 +86,11 @@ router.get('/admin', (ctx, next) => {
     next();
 })
 
+router.get('/test', async (ctx, next) => {
+    await insertData('admin3','admin3','admin3','admin3')
+    ctx.body = await findUserData('admin3')
+})
+
 router.post('/admin', async (ctx, next) => {
     // ctx.setHeaders('Access-Control-Allow-Origin', '*');
     ctx.body = await parseData(ctx);
@@ -75,26 +98,7 @@ router.post('/admin', async (ctx, next) => {
 })
 
 
-
-// app.use(view.views(
-//     path.join(__dirname, './views'),
-//     {
-//         map: { html: 'ejs' }
-//     }
-// ))
-// app.use( async ( ctx ) => {
-//     ctx.body = await view.render('index.ejs',{title:'hello koa2'});
-// })
-
-
 app.use(static.read(path.resolve(__dirname,'public')))
-app.use(router.routes());
-// app.use(view.views(
-//     path.resolve(__dirname,'public'),
-//     {
-//         map: { html: 'ejs' }
-//     }
-// ));
 
 
 
